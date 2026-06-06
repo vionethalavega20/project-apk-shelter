@@ -9,7 +9,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class PostDetailScreen extends StatelessWidget {
   final String postId;
-  const PostDetailScreen({super.key, required this.postId, required Map<String, dynamic> postData});
+  const PostDetailScreen({
+    super.key,
+    required this.postId,
+    required Map<String, dynamic> postData,
+  });
 
   Future<void> toggleFavorite(String postId) async {
     final userId = FirebaseAuth.instance.currentUser!.uid;
@@ -31,7 +35,13 @@ class PostDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final userId = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
-      appBar: AppBar(title: const Text('Detail Post')),
+      backgroundColor: Colors.blue.shade50,
+      appBar: AppBar(
+        title: const Text('Detail Post'),
+        backgroundColor: Colors.blue.shade300,
+        foregroundColor: Colors.white,
+        elevation: 0,
+      ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('posts')
@@ -199,12 +209,13 @@ class PostDetailScreen extends StatelessWidget {
                     );
                   }
 
-                  if (commentSnapshot.connectionState == ConnectionState.waiting) {
+                  if (commentSnapshot.connectionState ==
+                      ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
                   }
 
                   final comments = commentSnapshot.data?.docs ?? [];
-                  
+
                   if (comments.isEmpty) {
                     return const Padding(
                       padding: EdgeInsets.all(16.0),
@@ -220,8 +231,8 @@ class PostDetailScreen extends StatelessWidget {
                         subtitle: Text(
                           comment['timestamp'] != null
                               ? (comment['timestamp'] as Timestamp)
-                                  .toDate()
-                                  .toString()
+                                    .toDate()
+                                    .toString()
                               : '',
                         ),
                       );
@@ -266,14 +277,15 @@ class _CommentInputState extends State<CommentInput> {
         'postId': widget.postId,
         'userId': FirebaseAuth.instance.currentUser!.uid,
         'text': text,
-        'timestamp': FieldValue.serverTimestamp(), // Menggunakan serverTimestamp lebih aman
+        'timestamp':
+            FieldValue.serverTimestamp(), // Menggunakan serverTimestamp lebih aman
       });
       controller.clear();
       FocusScope.of(context).unfocus(); // Menutup keyboard setelah kirim
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal mengirim komentar: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Gagal mengirim komentar: $e')));
     } finally {
       setState(() => isSubmitting = false);
     }
@@ -291,8 +303,12 @@ class _CommentInputState extends State<CommentInput> {
           ),
         ),
         IconButton(
-          icon: isSubmitting 
-              ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+          icon: isSubmitting
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
               : const Icon(Icons.send, color: Colors.blue),
           onPressed: submit,
         ),
