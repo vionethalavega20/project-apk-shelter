@@ -29,8 +29,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       User? currentUser = _auth.currentUser;
 
       if (currentUser != null) {
-        DocumentSnapshot userDoc =
-            await _firestore.collection('users').doc(currentUser.uid).get();
+        DocumentSnapshot userDoc = await _firestore
+            .collection('users')
+            .doc(currentUser.uid)
+            .get();
 
         if (userDoc.exists) {
           Map<String, dynamic> data = userDoc.data() as Map<String, dynamic>;
@@ -71,9 +73,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Gagal menyimpan profil: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Gagal menyimpan profil: $e')));
     } finally {
       setState(() {
         isLoading = false;
@@ -101,14 +103,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     const Color lightBlueBackground = Color.fromARGB(255, 240, 244, 248);
-    const Color darkBlueAccent = Color.fromARGB(255, 30, 64, 110);
+    const Color darkBlueAccent = Color.fromARGB(255, 100, 181, 246);
 
     if (isLoading) {
       return const Scaffold(
         backgroundColor: lightBlueBackground,
-        body: Center(
-          child: CircularProgressIndicator(color: darkBlueAccent),
-        ),
+        body: Center(child: CircularProgressIndicator(color: darkBlueAccent)),
       );
     }
 
@@ -116,7 +116,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       backgroundColor: lightBlueBackground,
       appBar: AppBar(
         title: const Text(
-          'Profil Saya',
+          'My Profile',
           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         centerTitle: true,
@@ -133,7 +133,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   CircleAvatar(
                     radius: 55,
                     backgroundColor: darkBlueAccent.withOpacity(0.1),
-                    child: const Icon(Icons.person_rounded, size: 65, color: darkBlueAccent),
+                    child: const Icon(
+                      Icons.person_rounded,
+                      size: 65,
+                      color: darkBlueAccent,
+                    ),
                   ),
                   Positioned(
                     bottom: 0,
@@ -144,7 +148,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         color: darkBlueAccent,
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.camera_alt_rounded, size: 16, color: Colors.white),
+                      child: const Icon(
+                        Icons.camera_alt_rounded,
+                        size: 16,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
@@ -154,7 +162,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Card(
               elevation: 4,
               shadowColor: darkBlueAccent.withOpacity(0.1),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
@@ -164,9 +174,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                         labelText: 'Nama Lengkap',
                         labelStyle: const TextStyle(color: Colors.grey),
-                        prefixIcon: const Icon(Icons.person_outline_rounded, color: darkBlueAccent),
+                        prefixIcon: const Icon(
+                          Icons.person_outline_rounded,
+                          color: darkBlueAccent,
+                        ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: darkBlueAccent, width: 1.5),
+                          borderSide: BorderSide(
+                            color: darkBlueAccent,
+                            width: 1.5,
+                          ),
                         ),
                       ),
                     ),
@@ -176,9 +192,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       decoration: InputDecoration(
                         labelText: 'Email',
                         labelStyle: const TextStyle(color: Colors.grey),
-                        prefixIcon: const Icon(Icons.mail_outline_rounded, color: darkBlueAccent),
+                        prefixIcon: const Icon(
+                          Icons.mail_outline_rounded,
+                          color: darkBlueAccent,
+                        ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: darkBlueAccent, width: 1.5),
+                          borderSide: BorderSide(
+                            color: darkBlueAccent,
+                            width: 1.5,
+                          ),
                         ),
                       ),
                       keyboardType: TextInputType.emailAddress,
@@ -194,7 +216,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: ElevatedButton.icon(
                 onPressed: saveProfile,
                 icon: const Icon(Icons.save_rounded),
-                label: const Text('Simpan Perubahan', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+                label: const Text(
+                  'Simpan Perubahan',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: darkBlueAccent,
                   foregroundColor: Colors.white,
@@ -214,7 +239,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 icon: const Icon(Icons.logout_rounded, color: Colors.redAccent),
                 label: const Text(
                   'Keluar dari Akun',
-                  style: TextStyle(color: Colors.redAccent, fontSize: 15, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Colors.redAccent, width: 1.2),

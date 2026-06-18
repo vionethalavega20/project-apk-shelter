@@ -126,6 +126,13 @@ class FavoritesScreen extends StatelessWidget {
                 );
               }
 
+              final fullDescription =
+                  data['description'] as String? ?? 'Tanpa deskripsi';
+              final firstLineDescription = fullDescription
+                  .split('\n')
+                  .first
+                  .trim();
+
               return Card(
                 color: Colors.blue.shade50,
                 shadowColor: Colors.blue.shade100,
@@ -138,7 +145,11 @@ class FavoritesScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                     child: imageWidget,
                   ),
-                  title: Text(data['description'] ?? 'Tanpa deskripsi'),
+                  title: Text(
+                    firstLineDescription,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   subtitle: Text(
                     data['locationName'] ?? 'Lokasi tidak diketahui',
                   ),

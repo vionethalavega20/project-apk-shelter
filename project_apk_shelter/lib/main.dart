@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Shelter App',
+      title: 'Pawtopia Shelter App',
       debugShowCheckedModeBanner:
           false, // Menghilangkan banner debug (opsional)
       theme: ThemeData(

@@ -22,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
       appBar: AppBar(
-        title: const Text('Home Shelter'),
+        title: const Text('Pawtopia Shelter - Home'),
         backgroundColor: Colors.blue.shade300,
         foregroundColor: Colors.white,
         elevation: 0,
@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return const Center(child: Text('Belum ada postingan hewan.'));
+            return const Center(child: Text('Belum ada postingan.'));
           }
 
           final posts = snapshot.data!.docs;

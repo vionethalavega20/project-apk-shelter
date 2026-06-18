@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostDetailScreen extends StatelessWidget {
   final String postId;
@@ -144,12 +145,47 @@ class PostDetailScreen extends StatelessWidget {
                 child: kIsWeb
                     ? Container(
                         color: Colors.grey.shade200,
-                        child: Center(
-                          child: Text(
-                            'Peta tidak tersedia di web.\nLokasi: ${location.latitude}, ${location.longitude}',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(color: Colors.black87),
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.location_on,
+                              size: 40,
+                              color: Colors.blue,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'Lokasi: ${location.latitude.toStringAsFixed(5)}, ${location.longitude.toStringAsFixed(5)}',
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            GestureDetector(
+                              onTap: () async {
+                                final url =
+                                    'https://www.google.com/maps/search/${location.latitude},${location.longitude}';
+                                try {
+                                  await launchUrl(
+                                    Uri.parse(url),
+                                    mode: LaunchMode.platformDefault,
+                                  );
+                                } catch (e) {
+                                  print('Error launching URL: $e');
+                                }
+                              },
+                              child: const Text(
+                                'Buka di Google Maps',
+                                style: TextStyle(
+                                  color: Colors.blue,
+                                  fontSize: 12,
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       )
                     : GoogleMap(
@@ -164,8 +200,11 @@ class PostDetailScreen extends StatelessWidget {
                               location.latitude,
                               location.longitude,
                             ),
+                            infoWindow: const InfoWindow(title: 'Lokasi Hewan'),
                           ),
                         },
+                        zoomControlsEnabled: true,
+                        myLocationButtonEnabled: false,
                       ),
               ),
               Row(
